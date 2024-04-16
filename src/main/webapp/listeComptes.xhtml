@@ -17,7 +17,10 @@
             <ui:define name="content">
                 <h:form>
                     <p:dataTable value="#{listeComptes.getAllComptes()}"
-                                 var="compte">
+                                 var="compte"
+                                 paginator="true" rows="10"
+                                 rowsPerPageTemplate="2,4,8,10"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Id"/>
@@ -25,14 +28,16 @@
                             <h:outputText value="#{compte.id}"/>
                         </p:column>
 
-                        <p:column>
+                        <p:column sortBy="#{compte.nom}" filterBy="#{compte.nom}">
                             <f:facet name="header">
                                 <h:outputText value="Nom"/>
                             </f:facet>
                             <h:outputText value="#{compte.nom}"/>
+                            <f:facet name="filter">
+                            </f:facet>
                         </p:column>
 
-                        <p:column>
+                        <p:column sortBy="#{compte.nom}">
                             <f:facet name="header">
                                 <h:outputText value="Solde"/>
                             </f:facet>
