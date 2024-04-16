@@ -10,6 +10,7 @@ import jakarta.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
 import mg.itu.tpbanqueelodie.entity.CompteBancaire;
+import mg.itu.tpbanqueelodie.jsf.util.Util;
 import mg.itu.tpbanqueelodie.service.GestionnaireCompte;
 
 /**
@@ -36,6 +37,12 @@ public class ListeComptes implements Serializable {
             listeCompteBancaire = gestionnaireCompte.getAllComptes();
         }
         return listeCompteBancaire;
+    }
+
+    public String supprimerCompte(CompteBancaire compteBancaire) {
+        gestionnaireCompte.supprimerCompte(compteBancaire);
+        Util.addFlashInfoMessage("Compte de " + compteBancaire.getNom() + " supprimé");
+        return "listeComptes?faces-redirect=true";
     }
 
 }
