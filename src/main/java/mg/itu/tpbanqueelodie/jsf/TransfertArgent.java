@@ -9,6 +9,7 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import java.io.Serializable;
 import mg.itu.tpbanqueelodie.entity.CompteBancaire;
+import mg.itu.tpbanqueelodie.jsf.util.Util;
 import mg.itu.tpbanqueelodie.service.GestionnaireCompte;
 
 /**
@@ -57,10 +58,49 @@ public class TransfertArgent implements Serializable {
     }
 
     public String transfertArgent() {
+//        CompteBancaire c1 = gestionnaireCompte.findById(Long.valueOf(idExpediteur));
+//        CompteBancaire c2 = gestionnaireCompte.findById(Long.valueOf(idBeneficiaire));
+//        gestionnaireCompte.transferer(c1, c2, montant);
+//        return "listeComptes";
+
         CompteBancaire c1 = gestionnaireCompte.findById(Long.valueOf(idExpediteur));
         CompteBancaire c2 = gestionnaireCompte.findById(Long.valueOf(idBeneficiaire));
-        gestionnaireCompte.transferer(c1, c2, montant);
-        return "listeComptes";
+        String next = null;
+        boolean retour = this.validationdetransfertArgent(c1, c2);
+        if (retour) {
+            gestionnaireCompte.transferer(c1, c2, montant);
+            // Message de succès ; addFlash à cause de la redirection.
+            // ...Complétez pour faire apparaitre le montant et les noms des 2 propriétaires des comptes.
+            next = "listeComptes?faces-redirect=true"
+;
+            Util.addFlashInfoMessage("Transfert correctement effectué par " + c1.getNom() + " vers " + c2.getNom() + " de valeur " + montant);
+        }
 
+        return next;
+    }
+
+    public boolean validationdetransfertArgent(CompteBancaire c1, CompteBancaire c2) {
+        boolean retour = false;
+        if (c1 == null && c2 == null) {
+            Util.messageErreur("Aucun compte avec cet id Expediteur et Beneficiaire", "Aucun compte avec cet id Expediteur et Beneficiaire", "form:c1");
+        } else {
+            if (c1 == null) {
+                Util.messageErreur("Aucun compte avec cet id Expediteur", "Aucun compte avec cet id Expediteur", "form:c1");
+
+            }
+            if (c2 == null) {
+                Util.messageErreur("Aucun compte avec cet id Beneficiaire", "Aucun compte avec cet id Beneficiaire", "form:c1");
+
+            } else {
+                if (c1.getSolde() < montant) { // à compléter pour le cas où le solde du compte source est insuffisant...
+                    Util.messageErreur("Montant supérieur à celui de l'expediteur", "Montant supérieur à celui de l'expediteur", "form:c1");
+
+                } else {
+                    retour = true;
+
+                }
+            }
+        }
+        return retour;
     }
 }
