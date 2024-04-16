@@ -70,6 +70,7 @@ public class GestionnaireCompte {
         return nb;
     }
 
+    @Transactional
     public void creerCompte(CompteBancaire c) {
         em.persist(c);
     }
