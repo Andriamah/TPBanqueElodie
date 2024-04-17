@@ -81,19 +81,13 @@ public class Mouvement implements Serializable {
      */
     public void validateSolde(FacesContext fc, UIComponent composant, Object valeur) {
         UIInput composantTypeMouvement = (UIInput) composant.findComponent("typeMouvement");
-        // Il faut savoir si c'est un retrait ou un dépôt.
-        // Sans entrer dans les détails, il faut parfois utiliser
-        // getSubmittedValue() à la place de getLocalValue.
-        // typeMouvement n'est pas encore mis tant que la validation n'est pas finie.
+        
         String valeurTypeMouvement = (String) composantTypeMouvement.getLocalValue();
         if (valeurTypeMouvement == null) {
-            // Pour le cas où l'utilisateur a soumis le formulaire sans indiquer le type du mouvement,
-            // Le test valeurTypeMouvement.equals("retrait") ci-dessous génèrera une erreur car
-            // il est exécuté avant que JSF ne vérifie que l'utilisateur a bien choisi
-            // entre ajout et retrait (le choix est requis dans la page mouvement.xhtml)
+            
             return;
         }
-        if (valeurTypeMouvement.equals("****")) {
+        if (valeurTypeMouvement.equals("retrait")) {
             int retrait = (int) valeur;
             if (compte.getSolde() < retrait) {
                 FacesMessage message
