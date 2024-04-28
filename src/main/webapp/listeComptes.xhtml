@@ -55,6 +55,14 @@
                             <h:link outcome="modification?id=#{compte.id}" 
                                     value="Modifie compte"/>
                         </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText escape="false" value="Historique&lt;br/>opérations"/>
+                            </f:facet>
+                            <h:link outcome="historique?id=#{compte.id}&amp;faces-redirect=true" 
+                                    value="Détails"/>
+
+                        </p:column>
                     </p:dataTable>
                 </h:form>
                 <h:messages/>
