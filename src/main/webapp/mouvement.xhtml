@@ -46,8 +46,11 @@
                                      validator="#{mouvement.validateSolde}"/>
                         <h:message for="montant"/>
                     </h:panelGrid>
-                    <h:commandButton action="#{mouvement.enregistrerMouvement()}"
+                    <h:commandButton id ="boutton" action="#{mouvement.enregistrerMouvement()}"
                                      value="Enregistrer le mouvement"/>
+                    <h:commandButton action="#{mouvement.loadCompte()}"
+                                     value="Reessayer"/>
+                    
                 </h:form>
             </ui:define>
 
