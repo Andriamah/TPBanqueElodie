@@ -14,6 +14,7 @@ import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,8 @@ public class CompteBancaire implements Serializable {
 
     private String nom;
     private int solde;
+    @Version
+    private int version;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OperationBancaire> operations = new ArrayList<>();
@@ -63,6 +66,10 @@ public class CompteBancaire implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public int getVersion() {
+        return version;
     }
 
     public CompteBancaire(String nom, int solde) {
